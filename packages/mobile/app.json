@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "VConnect – Platform",
+    "owner": "bobek",
+    "slug": "vconnect",
+    "version": "15.0.0",
+    "privacy": "unlisted",
+    "orientation": "portrait",
+    "scheme": "vconnect",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "icon": "./assets/images/vconnect-icon-android.png",
+    "splash": {
+      "image": "./assets/images/vconnect-splash-screen.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "description": "",
+    "ios": {
+      "bundleIdentifier": "com.vulkan.vconnect.dev",
+      "buildNumber": "15.0.0",
+      "icon": "./assets/images/vconnect-icon-ios.png",
+      "usesAppleSignIn": true
+    },
+    "android": {
+      "package": "com.vulkan.vconnect.augmentify",
+      "versionCode": 15,
+      "permissions": [],
+      "icon": "./assets/images/vconnect-icon-android.png"
+    },
+    "packagerOpts": {
+      "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
+      "config": "metro.config.js"
+    }
+  }
+}

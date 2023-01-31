@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">VConnect – Platform</string>
+  <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
+  <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
+  <string name="augmentify_secret" translatable="false">d03198ac585766c00d693fc4e122a3fb</string>
+  <string name="augmentify_app_token" translatable="false">45bc175a0393f43545370245050188a4</string>
+</resources>

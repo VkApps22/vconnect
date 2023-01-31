@@ -1,0 +1,29 @@
+{
+  "scripts": {
+    "postinstall": "yarn --cwd ./packages/desktop && yarn --cwd ./packages/mobile && yarn --cwd ./packages/ws",
+    "clean:docker": "docker-compose -f ./packages/docker-compose.yml rm -f -s",
+    "clean:docker:production": "docker-compose -f ./packages/docker-compose.prod.yml rm -f -s",
+    "start:docker": "docker-compose -f ./packages/docker-compose.yml up",
+    "start:docker:production": "docker-compose -f ./packages/docker-compose.prod.yml up",
+    "build:docker:production": "docker-compose -f ./packages/docker-compose.prod.yml build",
+    "start:mobile": "yarn --cwd ./packages/mobile start",
+    "start:mobile:production": "yarn --cwd ./packages/mobile start:production",
+    "lint:desktop": "yarn --cwd ./packages/desktop lint",
+    "lint:mobile": "yarn --cwd ./packages/mobile lint",
+    "lint:ws": "yarn --cwd ./packages/ws lint",
+    "lint": "yarn lint:desktop && yarn lint:mobile && yarn lint:ws",
+    "test:desktop": "yarn --cwd ./packages/desktop test",
+    "test:mobile": "yarn --cwd ./packages/mobile test",
+    "test:ws": "yarn --cwd ./packages/ws test",
+    "test": "yarn test:desktop && yarn test:mobile && yarn test:ws"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn lint && yarn test"
+    }
+  },
+  "private": true,
+  "devDependencies": {
+    "husky": "3.1.0"
+  }
+}
