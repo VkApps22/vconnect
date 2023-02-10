@@ -126,7 +126,7 @@ const ContactScreen = () => {
   }, [dispatch, country, state, i18n.languages]);
 
   const scrollY = new Animated.Value(0);
-  const illustrationPos = Animated.interpolate(scrollY, {
+  const illustrationPos = Animated.interpolateNode(scrollY, {
     inputRange: [-10, 0, 1, 2],
     outputRange: [0, 0, 1, 1.5],
   });

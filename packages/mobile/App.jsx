@@ -12,7 +12,7 @@ import { ToastProvider } from './src/hooks/toast';
 import Theme from './src/theme';
 import { LoadingOverlay } from './src/components';
 
-enableScreens(false);
+enableScreens();
 
 if (Platform.OS !== 'web') {
   LogBox.ignoreAllLogs();

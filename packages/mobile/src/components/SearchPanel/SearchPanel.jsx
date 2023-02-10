@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Svg, { Path } from 'react-native-svg';
 import Proptypes from 'prop-types';
 import styled from 'styled-components/native';

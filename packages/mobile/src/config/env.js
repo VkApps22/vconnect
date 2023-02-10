@@ -2,7 +2,8 @@ import { Platform } from 'react-native';
 
 const HOST_ADDRESS =
   process.env.REACT_NATIVE_HOST_ADDRESS ||
-  `${Platform.OS === 'android' ? 'http://3.64.89.248' : 'http://3.64.89.248'}:3000`;
+  `${Platform.OS === 'android' ? 'https://vconnectplatform.com' : 'https://vconnectplatform.com'}:8443`;
+  
 
 const FB_APP_ID = process.env.REACT_NATIVE_FB_APP_ID || '1067192480465819';
 
