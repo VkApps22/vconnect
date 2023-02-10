@@ -84,6 +84,17 @@ const WelcomeScreen = () => {
           >
             {t('access-your-account')}
           </StyledButton>
+          <StyledButton
+            mode="outlined"
+            theme={{
+              colors: {
+                primary: 'rgba(0, 0, 0, 0.6)',
+              },
+            }}
+            onPress={() => navigation.navigate('Home')}
+          >
+            {t('access-without-account')}
+          </StyledButton>
         </ButtonsContainer>
       </Container>
     </SafeAreaContainer>
