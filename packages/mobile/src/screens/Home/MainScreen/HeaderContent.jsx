@@ -52,7 +52,7 @@ const HeaderContent = ({ ...props }) => {
         </TouchableDebounce>
       </MenuContainer>
       <Title>
-        {t('hi')}
+        {preferredName ? t('hi') : t('welcome')}
         <User>{preferredName}</User>
       </Title>
       <SubTitle>{t('what-are-you-looking-for?')}</SubTitle>
