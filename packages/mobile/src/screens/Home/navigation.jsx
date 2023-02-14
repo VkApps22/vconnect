@@ -63,8 +63,7 @@ const platformStyle =
 const HomeNavigator = () => {
   const { t } = useTranslation();
   const { preferredName } = useSelector(authSelector);
-  console.log('preferredName: ', preferredName);
-  console.log('env: ', env.DEFAULT_USER_NAME);
+
   return (
     <BottomNavigation.Navigator
       screenOptions={{ headerStatusBarHeight: 0 }}
