@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Dimensions, Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,9 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 
+import { unwrapResult } from '@reduxjs/toolkit';
 import { LogoImage } from '../../components/icons';
 import WelcomeImage from '../../../assets/images/vconnect-welcome.png';
 import { Button } from '../../components';
+import { signIn } from '../../store/auth';
+
+import { useToast } from '../../hooks/toast';
+
+import { env } from '../../config';
 
 const SafeAreaContainer = styled(SafeAreaView)`
   flex: 1;
@@ -51,9 +58,44 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
+const ErrorText = styled(Text)`
+  color: ${(props) => props.theme.text.accentError};
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  line-height: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+`;
+
 const WelcomeScreen = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [loginError, setLoginError] = useState(false);
+  const { toast } = useToast();
+
+  const onSignInPressDefault = useCallback(
+    () =>
+      dispatch(
+        signIn({
+          method: 'email',
+          email: env.DEFAULT_USER_EMAIL,
+          password: env.DEFAULT_USER_PASSWORD,
+        })
+      )
+        .then((result) => {
+          setLoginError(false);
+          unwrapResult(result);
+        })
+        .catch((err) => {
+          if (err && err.message === 'incorrect-email-or-password') {
+            setLoginError(true);
+          } else {
+            toast.exception(err);
+          }
+        }),
+    [dispatch, setLoginError, toast]
+  );
 
   return (
     <SafeAreaContainer>
@@ -91,11 +133,16 @@ const WelcomeScreen = () => {
                 primary: 'rgba(0, 0, 0, 0.6)',
               },
             }}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => onSignInPressDefault()}
           >
             {t('access-without-account')}
           </StyledButton>
         </ButtonsContainer>
+        {loginError ? (
+          <ErrorText>
+            {t('the-email-and/or-password-are-invalid-try-again')}
+          </ErrorText>
+        ) : null}
       </Container>
     </SafeAreaContainer>
   );

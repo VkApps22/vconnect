@@ -4,11 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 
 import MainScreen from './MainScreen';
 import FavoritesScreen from './FavoritesScreen';
 import ContactScreen from './ContactScreen';
 import SearchNavigator from './Search/navigation';
+
+import { selector as authSelector } from '../../store/auth';
+import { env } from '../../config';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
@@ -58,7 +62,9 @@ const platformStyle =
 
 const HomeNavigator = () => {
   const { t } = useTranslation();
-
+  const { preferredName } = useSelector(authSelector);
+  console.log('preferredName: ', preferredName);
+  console.log('env: ', env.DEFAULT_USER_NAME);
   return (
     <BottomNavigation.Navigator
       screenOptions={{ headerStatusBarHeight: 0 }}
@@ -113,14 +119,16 @@ const HomeNavigator = () => {
           tabBarIcon: getTabBarIcon('search'),
         }}
       />
-      <BottomNavigation.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{
-          title: t('favorites'),
-          tabBarIcon: getTabBarIcon('favorite-border', 'favorite'),
-        }}
-      />
+      {preferredName !== env.DEFAULT_USER_NAME && (
+        <BottomNavigation.Screen
+          name="Favorites"
+          component={FavoritesScreen}
+          options={{
+            title: t('favorites'),
+            tabBarIcon: getTabBarIcon('favorite-border', 'favorite'),
+          }}
+        />
+      )}
       <BottomNavigation.Screen
         name="Contact"
         component={ContactScreen}

@@ -3,7 +3,10 @@ import { Text, View } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { ModelCard } from '../../../components';
+import { selector as authSelector } from '../../../store/auth';
+import { env } from '../../../config';
 
 const MainText = styled(Text)`
   color: ${(props) => props.theme.text.primary};
@@ -35,6 +38,8 @@ const EmptyText = styled(Text)`
 
 const RecentViewed = ({ items }) => {
   const { t } = useTranslation();
+  const { preferredName } = useSelector(authSelector);
+
   return (
     <RecentSearches>
       <MainText $padding>{t('recently-viewed')}</MainText>
@@ -43,6 +48,7 @@ const RecentViewed = ({ items }) => {
           items.map((product, i) => (
             <ModelCard
               item={product}
+              hideFavoriteButton={preferredName === env.DEFAULT_USER_NAME}
               key={product._id}
               isLastMember={i === items.length - 1}
             />
