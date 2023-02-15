@@ -7,6 +7,7 @@ import { Text, View } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { selector as authSelector } from '../../../store/auth';
 import { TouchableDebounce } from '../../../components';
+import { env } from '../../../config';
 
 const Title = styled(Text)`
   color: #ffffff;
@@ -51,10 +52,14 @@ const HeaderContent = ({ ...props }) => {
           <Icon name="menu" size={30} color="#ffffff" />
         </TouchableDebounce>
       </MenuContainer>
-      <Title>
-        {preferredName ? t('hi') : t('welcome')}
-        <User>{preferredName}</User>
-      </Title>
+      {preferredName !== env.DEFAULT_USER_NAME ? (
+        <Title>
+          {t('hi')}
+          <User>{preferredName}</User>
+        </Title>
+      ) : (
+        <Title>{t('welcome')}</Title>
+      )}
       <SubTitle>{t('what-are-you-looking-for?')}</SubTitle>
     </Header>
   );

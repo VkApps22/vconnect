@@ -18,6 +18,8 @@ import FilterIcon from './FilterIcon';
 import ModelCard from '../../../../components/ModelCard/ModelCard';
 import SearchResultsError from './SearchResultsError';
 import SearchResultsMessage from './SearchResultsMessage';
+import { selector as authSelector } from '../../../../store/auth';
+import { env } from '../../../../config';
 
 const SearchResultsContainer = styled(View)`
   flex: 1;
@@ -56,6 +58,7 @@ const SearchResults = ({ query, filter, loadResults, setLoadResults }) => {
     modelSelector
   );
   const [filterCount, setFilterCount] = useState(0);
+  const { preferredName } = useSelector(authSelector);
 
   useEffect(() => {
     dispatch(slice.actions.reset());
@@ -102,7 +105,15 @@ const SearchResults = ({ query, filter, loadResults, setLoadResults }) => {
   }, [handleSearch, dispatch]);
 
   const keyExtractor = useCallback(({ _id }) => _id, []);
-  const renderItem = useCallback(({ item }) => <ModelCard item={item} />, []);
+  const renderItem = useCallback(
+    ({ item }) => (
+      <ModelCard
+        item={item}
+        hideFavoriteButton={preferredName === env.DEFAULT_USER_NAME}
+      />
+    ),
+    []
+  );
 
   return (
     <SearchResultsContainer>

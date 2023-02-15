@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selector as authSelector, signOut } from '../../../store/auth';
 import { DialogConfirmation, TouchableDebounce } from '../../../components';
 import { LogoutIcon } from '../../../components/icons';
+import { env } from '../../../config';
 
 const Container = styled(SafeAreaView)`
   background: #f3f3f3;
@@ -134,10 +135,11 @@ const SettingsScreen = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState(false);
+  const { preferredName } = useSelector(authSelector);
 
   return (
     <Container edges={['right', 'bottom', 'left']}>
-      <ProfileButton />
+      {preferredName !== env.DEFAULT_USER_NAME && <ProfileButton />}
       <LanguageButton />
       <PrivacyPolicyButton />
       <LogoutButton setDialog={setDialog} />

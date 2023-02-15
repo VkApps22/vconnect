@@ -7,16 +7,16 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useNavigation, CommonActions } from '@react-navigation/native';
-import { Augmentify } from '../../../components';
-import arImage from '../../../../assets/images/button_ar_cube.png';
-
 import {
+  Augmentify,
   Button,
   FocusAwareStatusBar,
   ImageCarousel,
   Loading,
   Divider,
 } from '../../../components';
+import arImage from '../../../../assets/images/button_ar_cube.png';
+
 import { useDynamicTranslation } from '../../../hooks/dynamic-translation';
 import TopBar from './TopBar';
 import DetailsMenu from './DetailsMenu';
@@ -32,6 +32,7 @@ import {
   slice,
 } from '../../../store/manual';
 import { useToast } from '../../../hooks/toast';
+import { selector as authSelector } from '../../../store/auth';
 import { env } from '../../../config';
 
 const DescriptionContainer = styled(View)`
@@ -102,6 +103,7 @@ const DetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { _id: modelId } = route.params.product;
   const [augmentifyExperience, setAugmentifyExperience] = useState();
+  const { preferredName } = useSelector(authSelector);
 
   useEffect(() => {
     dispatch(fetchDetails({ modelId }))
@@ -117,11 +119,11 @@ const DetailsScreen = ({ route }) => {
 
   useEffect(() => {
     const hasAugmentifyExperience = model && model.augmentifyId;
-    
+
     if (hasAugmentifyExperience) {
-      Augmentify.hasSupport((hasSupport) => setAugmentifyExperience(hasSupport 
-        ? model.augmentifyId 
-        : undefined));
+      Augmentify.hasSupport((hasSupport) =>
+        setAugmentifyExperience(hasSupport ? model.augmentifyId : undefined)
+      );
     } else {
       setAugmentifyExperience(undefined);
     }
@@ -144,8 +146,7 @@ const DetailsScreen = ({ route }) => {
   const downloadButton = () =>
     dispatch(download({ manualId })).then(unwrapResult).catch(toast.exception);
 
-  const arButton = () => 
-    Augmentify.openExperience(augmentifyExperience);
+  const arButton = () => Augmentify.openExperience(augmentifyExperience);
 
   const onSectionPress = (page) => {
     navigation.navigate('Details', {
@@ -189,11 +190,18 @@ const DetailsScreen = ({ route }) => {
       <FocusAwareStatusBar backgroundColor="#fff" />
       <SafeAreaView edges={['right', 'bottom', 'left']} style={{ flex: 1 }}>
         <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
-          <TopBar modelId={modelId} />
+          {preferredName !== env.DEFAULT_USER_NAME && (
+            <TopBar modelId={modelId} />
+          )}
           {pending && <Loading />}
           {!pending && model && (
             <>
-              <ImageCarousel images={images} pending={pendingImages} hasAr={augmentifyExperience} onArPressed={arButton}/>
+              <ImageCarousel
+                images={images}
+                pending={pendingImages}
+                hasAr={augmentifyExperience}
+                onArPressed={arButton}
+              />
               <DescriptionContainer>
                 <FamilyTitle>{dt(model.family)}</FamilyTitle>
                 <ModelTitle>{`${t('model')} ${model.model}`}</ModelTitle>
@@ -206,13 +214,16 @@ const DetailsScreen = ({ route }) => {
                   </DownloadButton>
                 )}
                 {augmentifyExperience && (
-                <React.Fragment>
-                <ArButton mode="contained" onPress={arButton}>
-                  <ArImage source={arImage} style={{ resizeMode: 'contain' }} />
-                  <Text>{t('augmentify-ar')}</Text>
-                </ArButton>
-                <ArText>{t('augmentify-powered')}</ArText>
-                </React.Fragment>
+                  <>
+                    <ArButton mode="contained" onPress={arButton}>
+                      <ArImage
+                        source={arImage}
+                        style={{ resizeMode: 'contain' }}
+                      />
+                      <Text>{t('augmentify-ar')}</Text>
+                    </ArButton>
+                    <ArText>{t('augmentify-powered')}</ArText>
+                  </>
                 )}
               </DescriptionContainer>
               <DetailsMenu

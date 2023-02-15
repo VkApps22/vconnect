@@ -100,7 +100,6 @@ const Routes = () => {
       {!hasAlreadyLogged && (
         <>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
-          <Stack.Screen name="Home" component={HomeNavigator} />
         </>
       )}
       <Stack.Screen name="SignIn" component={SignInNavigator} />
