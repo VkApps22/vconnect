@@ -116,9 +116,17 @@ const PrivacyPolicyButton = () => {
 
 const LogoutButton = ({ setDialog }) => {
   const { t } = useTranslation();
+  const { preferredName } = useSelector(authSelector);
+  const dispatch = useDispatch();
 
   return (
-    <OptionButton onPress={() => setDialog(true)}>
+    <OptionButton
+      onPress={() =>
+        preferredName !== env.DEFAULT_USER_NAME
+          ? setDialog(true)
+          : (setDialog(false), dispatch(signOut({})))
+      }
+    >
       <>
         <LogoutIcon />
         <ButtonTitle>{t('logout')}</ButtonTitle>
