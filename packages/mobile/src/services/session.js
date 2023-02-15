@@ -16,6 +16,7 @@ const fetchSession = async () => {
 
 const fetchHasSession = async () => {
   const session = await fetchSession();
+
   return session && session.token;
 };
 
@@ -42,11 +43,14 @@ const create = async ({
     redirectUri,
     data,
   });
+
   axios.defaults.headers.common = {
     Authorization: `Bearer ${response.data.token}`,
   };
   await setSession(response.data);
-  await setHasAlreadyLogged(true);
+
+  await setHasAlreadyLogged(response.data.email !== env.DEFAULT_USER_EMAIL);
+
   return response.data;
 };
 
