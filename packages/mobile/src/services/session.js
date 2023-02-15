@@ -49,11 +49,7 @@ const create = async ({
   };
   await setSession(response.data);
 
-  if (response.data.email === env.DEFAULT_USER_EMAIL) {
-    await setHasAlreadyLogged(false);
-  } else {
-    await setHasAlreadyLogged(true);
-  }
+  await setHasAlreadyLogged(response.data.email !== env.DEFAULT_USER_EMAIL);
 
   return response.data;
 };
