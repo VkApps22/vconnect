@@ -121,7 +121,7 @@ const DetailsScreen = ({ route }) => {
     const hasAugmentifyExperience = model && model.augmentifyId;
 
     if (hasAugmentifyExperience) {
-      Augmentify.hasSupport((hasSupport) =>
+      Augmentify?.hasSupport((hasSupport) =>
         setAugmentifyExperience(hasSupport ? model.augmentifyId : undefined)
       );
     } else {
