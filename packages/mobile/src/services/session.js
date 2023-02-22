@@ -47,7 +47,9 @@ const create = async ({
   axios.defaults.headers.common = {
     Authorization: `Bearer ${response.data.token}`,
   };
-  await setSession(response.data);
+  await setSession(
+    response.data.email !== env.DEFAULT_USER_EMAIL ? response.data : false
+  );
 
   await setHasAlreadyLogged(response.data.email !== env.DEFAULT_USER_EMAIL);
 
